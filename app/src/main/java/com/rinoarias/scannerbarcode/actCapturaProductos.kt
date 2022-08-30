@@ -11,6 +11,7 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -18,9 +19,14 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.Volley
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
+import com.rinoarias.scannerbarcode.models.Producto
 import com.rinoarias.scannerbarcode.utils.BeepManager
 import com.rinoarias.scannerbarcode.utils.CameraXViewModel
 import java.io.Serializable
@@ -31,6 +37,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 class actCapturaProductos : AppCompatActivity() {
+
+    private var api_productos : String = "https://my-json-server.typicode.com/rinoarias/ScannerBarcode/Productos"
 
     private var previewView: PreviewView? = null
     private var cameraProvider: ProcessCameraProvider? = null
@@ -45,9 +53,10 @@ class actCapturaProductos : AppCompatActivity() {
     private lateinit var txtSubTotal:TextView
 
     var listArrayProductos = ArrayList<ArrayList<String>>()
+
     lateinit var beepManager: BeepManager
     private var lastScan = Date()
-    private var lastCode:String=""
+    private var lastCode: String = ""
 
     private val screenAspectRatio: Int
         get() {
@@ -70,7 +79,7 @@ class actCapturaProductos : AppCompatActivity() {
         txtPVP = findViewById(R.id.txtPVP);
         txtSubTotal = findViewById(R.id.txtSubT);
 
-        txtDesc.text = "ESCANEAR CÓDIGO"
+        txtDesc.text = "ESCANEAR CÓDIGO DE PRODUCTO"
         txtCant.text ="0"
         txtPVP.text="0"
         txtSubTotal.text="0"
@@ -87,7 +96,7 @@ class actCapturaProductos : AppCompatActivity() {
                     txtSubTotal.text =  (s.toString().toFloat() *
                                         txtPVP.text.toString().toFloat()).toString()
                 } catch (e:Exception){
-                    txtSubTotal.text="0"
+                    txtSubTotal.text = "0"
                 }
 
             }
@@ -100,7 +109,7 @@ class actCapturaProductos : AppCompatActivity() {
     fun  clickAddProductBt(view: View){
         listArrayProductos.add(ArrayList<String>(Arrays.asList(
             txtDesc.text.toString(), txtCant.text.toString(), txtPVP.text.toString(),
-            txtDesc.text.toString(),txtSubTotal.text.toString())))
+            txtDesc.text.toString())))
 
         txtDesc.text = "Scanear Código"
         txtCant.text ="0"
@@ -233,10 +242,12 @@ class actCapturaProductos : AppCompatActivity() {
                             lastScan = current
                             lastCode = barcodes.get(0).rawValue.toString()
 
-                            txtDesc.setText(barcodes.get(0).rawValue.toString())
+                            var producto: Producto = obtenerProducto(lastCode)
+
+                            txtDesc.setText(producto.descripcion)
                             txtCant.text = "1"
-                            txtPVP.text = "12"
-                            txtSubTotal.text = "12"
+                            txtPVP.text = producto.pvp
+                            txtSubTotal.text = producto.pvp
 
                             beepManager.playBeepSound()
                         }
@@ -254,6 +265,35 @@ class actCapturaProductos : AppCompatActivity() {
                 // may stall.
                 imageProxy.close()
             }
+    }
+
+    private fun obtenerProducto(codigoBarra: String): Producto {
+        var producto : Producto = Producto("0", "0", "0", "Not found")
+        var requestJson : JsonArrayRequest = JsonArrayRequest(
+            Request.Method.GET,
+            api_productos,
+            null,
+            { response ->
+                try {
+                    for (i in 0 until response.length()){
+                        var item = response.getJSONObject(i)
+                        if(item.get("codigo").toString() == codigoBarra){
+                            producto = Producto(item)
+                            Toast.makeText(this, "Producto: " + producto.descripcion, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Error al obtener los datos: $e", Toast.LENGTH_LONG).show()
+                    System.out.println(e.toString())
+                }
+            },
+            {
+                Toast.makeText(this, "Error al obtener los datos: $it", Toast.LENGTH_LONG).show()
+                System.out.println(it.toString())
+            })
+        var requestQueue : RequestQueue = Volley.newRequestQueue(this)
+        requestQueue.add(requestJson)
+        return producto
     }
 
     /**
@@ -304,4 +344,6 @@ class actCapturaProductos : AppCompatActivity() {
         private const val RATIO_4_3_VALUE = 4.0 / 3.0
         private const val RATIO_16_9_VALUE = 16.0 / 9.0
     }
+
+
 }

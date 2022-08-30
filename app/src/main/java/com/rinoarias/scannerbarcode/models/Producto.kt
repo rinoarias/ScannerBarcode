@@ -5,12 +5,11 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class Producto(var codigo: String, var cantidad: String, var pvp: String,
-               var descripcion: String, var subtotal: String ) {
+               var descripcion: String) {
 
     constructor (a: JSONObject): this(a.getString("codigo").toString(),
         a.getString("cantidad").toString(), a.getString("pvp").toString(),
-        a.getString("descripcion").toString(),
-        a.getString("subtotal").toString()){
+        a.getString("descripcion").toString()){
 
     }
 

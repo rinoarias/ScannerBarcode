@@ -41,6 +41,13 @@
       "cantidad" : "504",
       "pvp" : "2.00",
       "descripcion" : "GALLETAS SALTICAS 280G X4"
+    },
+    {
+      "id" : "6",
+      "codigo" : "7861048606165",
+      "cantidad" : "100",
+      "pvp" : "1.25",
+      "descripcion" : "GIRASOL MARGARINA"
     }
   ],
   "Clientes" : [

@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
                 var listArrayNewProductos = it.data?.getSerializableExtra("data") as ArrayList<ArrayList<String>>
                 listArrayNewProductos.forEach{
                       adapter.addItem(Producto(it.get(0).toString(),it.get(1).toString(),
-                          it.get(2).toString(),it.get(3).toString(),it.get(4).toString()))
+                          it.get(2).toString(),it.get(3).toString()))
                 }
             }
         }
@@ -37,11 +37,11 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
 
         var listArrayProductos = ArrayList<Producto>()
-        listArrayProductos.add(Producto("001","1","10","Producto1","10"))
-        listArrayProductos.add(Producto("002","1","10","Producto2","10"))
-        listArrayProductos.add(Producto("003","1","10","Producto3","10"))
-        listArrayProductos.add(Producto("004","1","10","Producto4","10"))
-        listArrayProductos.add(Producto("005","1","10","Producto5","10"))
+        listArrayProductos.add(Producto("001","1","10","Producto1"))
+        listArrayProductos.add(Producto("002","1","10","Producto2"))
+        listArrayProductos.add(Producto("003","1","10","Producto3"))
+        listArrayProductos.add(Producto("004","1","10","Producto4"))
+        listArrayProductos.add(Producto("005","1","10","Producto5"))
 
         val resId = R.anim.layout_animation_down_to_up
         val animation = AnimationUtils.loadLayoutAnimation(

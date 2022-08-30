@@ -29,7 +29,6 @@ class ListaProductosSubDetailAdapter (val productList: ArrayList<Producto>) : Re
         holder.txtCant.text = productList[position].cantidad
         holder.txtDesc.text = productList[position].descripcion
         holder.txtPVP.text = productList[position].pvp
-        holder.txtSUbT.text = productList[position].subtotal
     }
 
     override fun getItemCount(): Int {
