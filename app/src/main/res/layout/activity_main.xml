@@ -25,7 +25,7 @@
             android:layout_marginStart="77dp"
             android:layout_marginTop="37dp"
             android:inputType="number"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/txtDireccion"
@@ -167,10 +167,10 @@
         android:layout_width="416dp"
         android:layout_height="30dp"
 
-        app:layout_constraintStart_toStartOf="@+id/lydatoscliente"
-
         app:layout_constraintLeft_toLeftOf="parent"
+
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/lydatoscliente"
         app:layout_constraintTop_toBottomOf="@+id/lydatoscliente">
 
         <TextView
@@ -226,7 +226,7 @@
         android:id="@+id/lyproductos"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/lyTotales"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lylabels">
@@ -241,6 +241,45 @@
             android:layout_marginTop="0dp" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/lyTotales"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/lyproductos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.135">
+
+        <TextView
+            android:id="@+id/lblSubtotalFactura"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
+            android:text="Sub-Total: $ 0.00"
+            android:textAllCaps="true" />
+
+        <TextView
+            android:id="@+id/lblIvaFactura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lblSubtotalFactura"
+            android:text="IVA 12%: $ 0.00"
+            android:textAllCaps="false" />
+
+        <TextView
+            android:id="@+id/lblTotalFactura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lblIvaFactura"
+            android:text="Total a Pagar: $ 0.00"
+            android:textAllCaps="true"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -250,6 +289,7 @@
         android:onClick="clickbutton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:rippleColor="#000000"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

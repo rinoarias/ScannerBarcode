@@ -4,10 +4,10 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-class Producto(var codigo: String, var cantidad: String, var pvp: String,
+class Producto(var idProducto: String, var codigo: String, var cantidad: String, var pvp: String,
                var descripcion: String) {
 
-    constructor (a: JSONObject): this(a.getString("codigo").toString(),
+    constructor (a: JSONObject): this(a.getString("id").toString(), a.getString("codigo").toString(),
         a.getString("cantidad").toString(), a.getString("pvp").toString(),
         a.getString("descripcion").toString()){
 

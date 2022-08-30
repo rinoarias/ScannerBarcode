@@ -9,14 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.rinoarias.scannerbarcode.R
 import com.rinoarias.scannerbarcode.models.Producto
-import kotlin.math.roundToInt
+import com.rinoarias.scannerbarcode.utils.OperacionesBasicas
 
 
 class ListaProductosSubDetailAdapter (val productList: ArrayList<Producto>) : RecyclerView.Adapter<ListaProductosSubDetailAdapter.ViewHolder>() {
-
-    fun redondear2decimales(num: Double) : String {
-        return ((num * 100.0).roundToInt() / 100.0).toString()
-    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(viewGroup.context)
@@ -33,7 +29,7 @@ class ListaProductosSubDetailAdapter (val productList: ArrayList<Producto>) : Re
         holder.txtCant.text = productList[position].cantidad
         holder.txtDesc.text = productList[position].descripcion
         holder.txtPVP.text = productList[position].pvp
-        holder.txtSUbT.text = redondear2decimales((productList[position].pvp.toDouble()*productList[position].cantidad.toInt()))
+        holder.txtSUbT.text = OperacionesBasicas.StringDosDecimales((productList[position].pvp.toDouble()*productList[position].cantidad.toInt()))
     }
 
     override fun getItemCount(): Int {
@@ -57,8 +53,8 @@ class ListaProductosSubDetailAdapter (val productList: ArrayList<Producto>) : Re
             itemView.setOnClickListener { v: View  ->
                 var position: Int = getAdapterPosition()
 
-                Snackbar.make(v, "Item Selecccionado $position",
-                    Snackbar.LENGTH_LONG).setAction("Actción", null).show()
+                Snackbar.make(v, "Item Selecccionado: $position",
+                    Snackbar.LENGTH_LONG).setAction("Acción", null).show()
             }
         }
     }

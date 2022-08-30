@@ -29,6 +29,7 @@ import com.google.mlkit.vision.common.InputImage
 import com.rinoarias.scannerbarcode.models.Producto
 import com.rinoarias.scannerbarcode.utils.BeepManager
 import com.rinoarias.scannerbarcode.utils.CameraXViewModel
+import com.rinoarias.scannerbarcode.utils.OperacionesBasicas
 import java.io.Serializable
 import java.util.*
 import java.util.concurrent.Executors
@@ -97,8 +98,9 @@ class actCapturaProductos : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
                 try {
-                    txtSubTotal.text =  (s.toString().toFloat() *
-                                        txtPVP.text.toString().toFloat()).toString()
+                    txtSubTotal.text =  OperacionesBasicas.StringDosDecimales(
+                        s.toString().toDouble()*txtPVP.text.toString().toDouble()
+                    )
                 } catch (e:Exception){
                     txtSubTotal.text = "0"
                 }
@@ -111,11 +113,16 @@ class actCapturaProductos : AppCompatActivity() {
 
 
     fun  clickAddProductBt(view: View){
-        listArrayProductos.add(ArrayList<String>(Arrays.asList(
-            txtDesc.text.toString(), txtCant.text.toString(), txtPVP.text.toString(),
-            txtDesc.text.toString())))
+        listArrayProductos.add(
+            ArrayList<String>(
+                Arrays.asList(
+                    producto.idProducto, producto.codigo, txtCant.text.toString(), producto.pvp,
+                    producto.descripcion
+                )
+            )
+        )
 
-        txtDesc.text = "Scanear Código"
+        txtDesc.text = "ESCANEAR CÓDIGO DE BARRAS"
         txtCant.text ="0"
         txtPVP.text="0"
         txtSubTotal.text="0"
@@ -252,7 +259,7 @@ class actCapturaProductos : AppCompatActivity() {
                 }
             }
             .addOnFailureListener {
-                txtDesc.text = "Scanear Código"
+                txtDesc.text = "ESCANEAR CODIGO DE BARRAS"
                 txtCant.text ="0"
                 txtPVP.text="0"
                 txtSubTotal.text="0"
@@ -273,17 +280,17 @@ class actCapturaProductos : AppCompatActivity() {
                 try {
                     for (i in 0 until response.length()){
                         var item = response.getJSONObject(i)
-                        var productoAux = Producto(item)
-                        if(productoAux.codigo == codigoBarra){
+                        producto = Producto(item)
+                        if(producto.codigo == codigoBarra){
 
-                            txtDesc.text = productoAux.descripcion
+                            txtDesc.text = "[${producto.cantidad} unds] " + producto.descripcion
                             txtCant.text = "1"
-                            txtPVP.text = productoAux.pvp
-                            txtSubTotal.text = productoAux.pvp
+                            txtPVP.text = producto.pvp
+                            txtSubTotal.text = producto.pvp
 
                             beepManager.playBeepSound()
 
-                            Toast.makeText(this, "Producto: " + productoAux.descripcion, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Producto: " + producto.descripcion, Toast.LENGTH_SHORT).show()
                             break
                         }
                     }

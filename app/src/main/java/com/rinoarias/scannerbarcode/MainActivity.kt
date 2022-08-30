@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -17,10 +18,15 @@ import com.android.volley.toolbox.Volley
 import com.rinoarias.scannerbarcode.dataadapters.ListaProductosSubDetailAdapter
 import com.rinoarias.scannerbarcode.models.Cliente
 import com.rinoarias.scannerbarcode.models.Producto
+import com.rinoarias.scannerbarcode.utils.OperacionesBasicas
 
 class MainActivity : AppCompatActivity() {
 
     val URL_API_CLIENTES : String = "https://my-json-server.typicode.com/rinoarias/ScannerBarcode/Clientes"
+
+    var totalSubtotal : Double = 0.0
+    var totalIVA : Double = 0.0
+    var totalTotalPagar: Double = 0.0
 
     lateinit var requestQueue : RequestQueue
     lateinit  var layoutManager: RecyclerView.LayoutManager
@@ -28,11 +34,35 @@ class MainActivity : AppCompatActivity() {
 
     var getResult  =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+
             if(it.resultCode == RESULT_OK){
                 var listArrayNewProductos = it.data?.getSerializableExtra("data") as ArrayList<ArrayList<String>>
                 listArrayNewProductos.forEach{
-                      adapter.addItem(Producto(it.get(0).toString(),it.get(1).toString(),
-                          it.get(2).toString(),it.get(3).toString()))
+                    var producto : Producto = Producto(
+                        it.get(0).toString(),
+                        it.get(1).toString(),
+                        it.get(2).toString(),
+                        it.get(3).toString(),
+                        it.get(4).toString()
+                    )
+                    adapter.addItem(
+                        producto
+                      )
+
+                    var totalItem = producto.pvp.toDouble()*producto.cantidad.toDouble()
+
+                    totalSubtotal = totalSubtotal + totalItem/1.12
+                    totalIVA = totalIVA + (totalItem - (totalItem/1.12))
+                    totalTotalPagar = totalTotalPagar + totalItem
+
+                    var lblSubtotal : TextView = findViewById(R.id.lblSubtotalFactura)
+                    var lblIVA : TextView = findViewById(R.id.lblIvaFactura)
+                    var lblTotalPagar : TextView = findViewById(R.id.lblTotalFactura)
+
+                    lblSubtotal.setText("SUB-TOTAL: $ " + OperacionesBasicas.StringDosDecimales(totalSubtotal))
+                    lblIVA.setText("IVA 12%: $" + OperacionesBasicas.StringDosDecimales(totalIVA))
+                    lblTotalPagar.setText("TOTAL A PAGAR: $ " + OperacionesBasicas.StringDosDecimales(totalTotalPagar))
+
                 }
             }
         }
@@ -47,11 +77,14 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
 
         var listArrayProductos = ArrayList<Producto>()
-        //listArrayProductos.add(Producto("001","1","10","Producto1"))
-        //listArrayProductos.add(Producto("002","1","10","Producto2"))
-        //listArrayProductos.add(Producto("003","1","10","Producto3"))
-        //listArrayProductos.add(Producto("004","1","10","Producto4"))
-        //listArrayProductos.add(Producto("005","1","10","Producto5"))
+        /*
+        listArrayProductos.add(Producto("", "001","1","10","Producto1"))
+        listArrayProductos.add(Producto("", "002","1","10","Producto2"))
+        listArrayProductos.add(Producto("", "003","1","10","Producto3"))
+        listArrayProductos.add(Producto("", "004","1","10","Producto4"))
+        listArrayProductos.add(Producto("", "005","1","10","Producto5"))
+        
+         */
 
         val resId = R.anim.layout_animation_down_to_up
         val animation = AnimationUtils.loadLayoutAnimation(
