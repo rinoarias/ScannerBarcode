@@ -24,5 +24,4 @@ class Producto(var codigo: String, var cantidad: String, var pvp: String,
             return productos
         }
     }
-
 }

@@ -150,7 +150,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:onClick="clickAddProductBt"
-            android:text="Add Producto"
+            android:text="agregar Producto"
             android:textSize="14sp" />
 
         <Button
