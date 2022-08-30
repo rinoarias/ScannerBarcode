@@ -1,0 +1,102 @@
+{
+  "Productos" : [
+    {
+      "id" : "0",
+      "codigo" : "1234567890123",
+      "cantidad" : "100",
+      "pvp" : "50.95",
+      "descripcion" : "PRODUCTO PRUEBA"
+    },
+    {
+      "id" : "1",
+      "codigo" : "7861006800215",
+      "cantidad" : "50",
+      "pvp" : "2.85",
+      "descripcion" : "FRASCO CAFE ORO 50G"
+    },
+    {
+      "id" : "2",
+      "codigo" : "7861008901439",
+      "cantidad" : "20",
+      "pvp" : "0.85",
+      "descripcion" : "FLAN GELHADA 60G"
+    },
+    {
+      "id" : "3",
+      "codigo" : "7861006800253",
+      "cantidad" : "200",
+      "pvp" : "2.22",
+      "descripcion" : "SOBRE CAFE ORO 50G"
+    },
+    {
+      "id" : "4",
+      "codigo" : "7861005202003",
+      "cantidad" : "45",
+      "pvp" : "1.59",
+      "descripcion" : "FILTRO PARA CAFE MINERVA"
+    },
+    {
+      "id" : "5",
+      "codigo" : "7861004913634",
+      "cantidad" : "504",
+      "pvp" : "2.00",
+      "descripcion" : "GALLETAS SALTICAS 280G X4"
+    }
+  ],
+  "Clientes" : [
+    {
+      "id" : "0",
+      "identificacion" : "9999999999999",
+      "razon_social" : "CONSUMIDOR FINAL",
+      "email" : "example@mail.com",
+      "placa" : "JBA000",
+      "telefono" : "0987654321",
+      "direccion" : "ECUADOR"
+    },
+    {
+      "id" : "1",
+      "identificacion" : "1207921121001",
+      "razon_social" : "ARIAS LAAZ RINO ANTONIO",
+      "email" : "rinoariaslaaz@gmail.com",
+      "placa" : "GSX5851",
+      "telefono" : "0960235487",
+      "direccion" : "QUEVEDO"
+    },
+    {
+      "id" : "2",
+      "identificacion" : "1250453857001",
+      "razon_social" : "VERA COELLO JORDAN FABIAN",
+      "email" : "jverac12@uteq.edu.ec",
+      "placa" : "ABC0123",
+      "telefono" : "0980576250",
+      "direccion" : "EL DESQUITE, QUEVEDO"
+    },
+    {
+      "id" : "3",
+      "identificacion" : "1206556366001",
+      "razon_social" : "MANZABA GARCES IVAN MAURICIO",
+      "email" : "imanzabag@uteq.edu.ec",
+      "placa" : "GYX6969",
+      "telefono" : "0996704007",
+      "direccion" : "EL GUAYACAN, QUEVEDO"
+    },
+    {
+      "id" : "4",
+      "identificacion" : "1205127366001",
+      "razon_social" : "ZAMBRANO VEGA CRISTIAN GABRIEL",
+      "email" : "czambrano@uteq.edu.ec",
+      "placa" : "RBA6452",
+      "telefono" : "0992304169",
+      "direccion" : "LA ARBOLEDA, QUEVEDO"
+    },
+    {
+      "id" : "5",
+      "identificacion" : "1203878564001",
+      "razon_social" : "PORTILLA OLVERA GILBERTO ELIAS",
+      "email" : "eportilla@uteq.edu.ec",
+      "placa" : "RBA3338",
+      "telefono" : "0981478325",
+      "direccion" : "EL GUAYACAN, QUEVEDO"
+    }
+  ]
+}
