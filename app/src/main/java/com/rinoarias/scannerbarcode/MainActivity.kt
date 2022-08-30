@@ -37,11 +37,11 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
 
         var listArrayProductos = ArrayList<Producto>()
-        listArrayProductos.add(Producto("001","1","10","Producto1"))
-        listArrayProductos.add(Producto("002","1","10","Producto2"))
-        listArrayProductos.add(Producto("003","1","10","Producto3"))
-        listArrayProductos.add(Producto("004","1","10","Producto4"))
-        listArrayProductos.add(Producto("005","1","10","Producto5"))
+        //listArrayProductos.add(Producto("001","1","10","Producto1"))
+        //listArrayProductos.add(Producto("002","1","10","Producto2"))
+        //listArrayProductos.add(Producto("003","1","10","Producto3"))
+        //listArrayProductos.add(Producto("004","1","10","Producto4"))
+        //listArrayProductos.add(Producto("005","1","10","Producto5"))
 
         val resId = R.anim.layout_animation_down_to_up
         val animation = AnimationUtils.loadLayoutAnimation(

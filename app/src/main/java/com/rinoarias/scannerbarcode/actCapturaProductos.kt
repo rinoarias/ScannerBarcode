@@ -52,6 +52,10 @@ class actCapturaProductos : AppCompatActivity() {
     private lateinit var txtPVP:TextView
     private lateinit var txtSubTotal:TextView
 
+    private lateinit var producto: Producto
+    private lateinit var requestQueue : RequestQueue
+
+
     var listArrayProductos = ArrayList<ArrayList<String>>()
 
     lateinit var beepManager: BeepManager
@@ -242,14 +246,7 @@ class actCapturaProductos : AppCompatActivity() {
                             lastScan = current
                             lastCode = barcodes.get(0).rawValue.toString()
 
-                            var producto: Producto = obtenerProducto(lastCode)
-
-                            txtDesc.setText(producto.descripcion)
-                            txtCant.text = "1"
-                            txtPVP.text = producto.pvp
-                            txtSubTotal.text = producto.pvp
-
-                            beepManager.playBeepSound()
+                            obtenerProducto(lastCode)
                         }
                     }
                 }
@@ -267,8 +264,7 @@ class actCapturaProductos : AppCompatActivity() {
             }
     }
 
-    private fun obtenerProducto(codigoBarra: String): Producto {
-        var producto : Producto = Producto("0", "0", "0", "Not found")
+    private fun obtenerProducto(codigoBarra: String) {
         var requestJson : JsonArrayRequest = JsonArrayRequest(
             Request.Method.GET,
             api_productos,
@@ -277,9 +273,18 @@ class actCapturaProductos : AppCompatActivity() {
                 try {
                     for (i in 0 until response.length()){
                         var item = response.getJSONObject(i)
-                        if(item.get("codigo").toString() == codigoBarra){
-                            producto = Producto(item)
-                            Toast.makeText(this, "Producto: " + producto.descripcion, Toast.LENGTH_SHORT).show()
+                        var productoAux = Producto(item)
+                        if(productoAux.codigo == codigoBarra){
+
+                            txtDesc.text = productoAux.descripcion
+                            txtCant.text = "1"
+                            txtPVP.text = productoAux.pvp
+                            txtSubTotal.text = productoAux.pvp
+
+                            beepManager.playBeepSound()
+
+                            Toast.makeText(this, "Producto: " + productoAux.descripcion, Toast.LENGTH_SHORT).show()
+                            break
                         }
                     }
                 } catch (e: Exception) {
@@ -291,9 +296,8 @@ class actCapturaProductos : AppCompatActivity() {
                 Toast.makeText(this, "Error al obtener los datos: $it", Toast.LENGTH_LONG).show()
                 System.out.println(it.toString())
             })
-        var requestQueue : RequestQueue = Volley.newRequestQueue(this)
+        requestQueue = Volley.newRequestQueue(this)
         requestQueue.add(requestJson)
-        return producto
     }
 
     /**
